@@ -18,5 +18,18 @@ namespace SignalRChatServer.Hubs
             await Clients.Others.SendAsync("clientJoined", nickName);
             await Clients.All.SendAsync("clients", ClientSource.Clients);
         }
+
+        public async Task SendMessageAsync(string message, string clientName)
+        {
+            if (clientName == "Tümü")
+            {
+                await Clients.All.SendAsync("receiveMessage", message);
+            }
+            else
+            {
+                Client client = ClientSource.Clients.FirstOrDefault(c => c.NickName == clientName);
+                await Clients.Client(client.ConnectionId).SendAsync("receiveMessage", message);
+            }
+        }
     }
 }
