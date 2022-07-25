@@ -68,5 +68,10 @@ namespace SignalRChatServer.Hubs
 
             await Clients.Caller.SendAsync("clients", groupName == "-1" ? ClientSource.Clients : group.Clients);
         }
+
+        public async Task SendMessageToGroupAsync(string groupName, string message)
+        {
+            await Clients.Group(groupName).SendAsync("receiveMessage", message, ClientSource.Clients.FirstOrDefault(c => c.ConnectionId == Context.ConnectionId).NickName);
+        }
     }
 }
