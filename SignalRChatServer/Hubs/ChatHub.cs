@@ -41,5 +41,13 @@ namespace SignalRChatServer.Hubs
 
             await Clients.All.SendAsync("groups", GroupSource.Groups);
         }
+
+        public async Task AddClientToGroup(IEnumerable<string> groupNames)
+        {
+            foreach (string groupName in groupNames)
+            {
+                await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
+            }
+        }
     }
 }
