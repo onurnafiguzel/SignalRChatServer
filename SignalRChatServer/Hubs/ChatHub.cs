@@ -66,7 +66,7 @@ namespace SignalRChatServer.Hubs
         {
             Group group = GroupSource.Groups.FirstOrDefault(g => g.GroupName == groupName);
 
-            await Clients.Caller.SendAsync("clients", group.Clients);
+            await Clients.Caller.SendAsync("clients", groupName == "-1" ? ClientSource.Clients : group.Clients);
         }
     }
 }
